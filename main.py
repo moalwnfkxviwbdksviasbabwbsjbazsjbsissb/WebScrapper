@@ -22,22 +22,22 @@ bughunter0 = Client(
 @bughunter0.on_message(filters.command(["start"]))
 async def start(_, message: Message):
     # Edit Your Start string here
-    text = f"Hello , I am a web scrapper bot." \
-    "\nSend me any link for scrapping.\n\nJoin @BugHunterBots"
+    text = f"اهلا بك بوت ليفاي." \
+    "\nاعطني اـٰــيۂ 🙋🏻‍♀💕) “ رابط.\n\nJoin @SIS_fff"
     await message.reply_text(text=text, disable_web_page_preview=True, quote=True)
 
 
 @bughunter0.on_message((filters.regex("https") | filters.regex("http") | filters.regex("www")) & filters.private)
 async def scrapping(bot, message):
-    txt = await message.reply_text("Validating Link", quote=True)
+    txt = await message.reply_text("التحقق من الارتباط", quote=True)
     try:  # Extracting Raw Data From Webpage ( Unstructured format)
         url = str(message.text)
         request = requests.get(url)
-        await txt.edit(text=f"Getting Raw Data from {url}", disable_web_page_preview=True)
-        file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
+        await txt.edit(text=f"الحصول على بيانات أولية من {url}", disable_web_page_preview=True)
+        file_write = open(f'مسودة بيانات-{message.chat.username}.txt', 'a+')
         file_write.write(f"{request.content}")  # Writing Raw Content to Txt file
         file_write.close()
-        await message.reply_document(f"RawData-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
+        await message.reply_document(f"مسودة بيانات-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
         os.remove(f"RawData-{message.chat.username}.txt")
         await txt.delete()
     except Exception as error:
@@ -46,31 +46,31 @@ async def scrapping(bot, message):
         await txt.delete()
         return
     try:
-        txt = await message.reply_text(text=f"Getting HTML code from {url}", disable_web_page_preview=True, quote=True)
+        txt = await message.reply_text(text=f"الحصول على كود HTML من {url}", disable_web_page_preview=True, quote=True)
         soup = BeautifulSoup(request.content, 'html5lib')  # Extracting Html code in Tree Format
-        file_write = open(f'HtmlData-{message.chat.username}.txt', 'a+')
+        file_write = open(f'بيانات Html-{message.chat.username}.txt', 'a+')
         soup.data = soup.prettify()  # parsing HTML
         file_write.write(f"{soup.data}")  # writing data to txt
         file_write.close()
-        await message.reply_document(f"HtmlData-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
-        os.remove(f"HtmlData-{message.chat.username}.txt")
+        await message.reply_document(f"بيانات Html-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
+        os.remove(f"بيانات Html-{message.chat.username}.txt")
         await txt.delete()
     except Exception as error:
         await message.reply_text(text=f"{error}", disable_web_page_preview=True, quote=True)
         await txt.delete()
         return
     try:
-        txt = await message.reply_text(f"Getting all Links from {url}", disable_web_page_preview=True, quote=True)
-        file_write = open(f'AllLinks-{message.chat.username}.txt', 'a+')
+        txt = await message.reply_text(f"الحصول على كافة الروابط من {url}", disable_web_page_preview=True, quote=True)
+        file_write = open(f'الكل-{message.chat.username}.txt', 'a+')
         for link in soup.find_all('a'):  # getting all <a> tags in Html
             links = link.get('href')  # Extracting Href value of <a>
             file_write.write(f"{links}\n\n")  # writing links to txt file
         file_write.close()
         await message.reply_document(
             f"AllLinks-{message.chat.username}.txt",
-            caption="©@BugHunterBots"
+            caption="©@Q_B_h"
         )
-        os.remove(f"AllLinks-{message.chat.username}.txt")
+        os.remove(f"كل روابط-{message.chat.username}.txt")
         await txt.delete()
     except Exception as error:
         await message.reply_text(text=f"{error}", disable_web_page_preview=True, quote=True)
@@ -78,11 +78,11 @@ async def scrapping(bot, message):
 
     try:
         txt = await message.reply_text(
-            f"Getting all Paragraph from {url} ...",
+            f"الحصول على كل فقرة من {url} ...",
             disable_web_page_preview=True,
             quote=True
         )
-        file_write = open(f'AllParagraph-{message.chat.username}.txt', 'a+')
+        file_write = open(f'الكل-{message.chat.username}.txt', 'a+')
         paragraph = ""
         for para in soup.find_all('p'):  # Extracting all <p> tags
             paragraph = para.get_text()  # Getting Text from Paragraphs
@@ -91,13 +91,13 @@ async def scrapping(bot, message):
         
         await txt.delete()
         await message.reply_document(
-            f"AllParagraph-{message.chat.username}.txt",
-            caption="©@BugHunterBots",
+            f"الكل-{message.chat.username}.txt",
+            caption="©@Q_B_H",
             quote=True
         )
-        os.remove(f"AllParagraph-{message.chat.username}.txt")
+        os.remove(f"الكل-{message.chat.username}.txt")
     except Exception as error:
-        await message.reply_text(text=f"No Paragraphs Found!!", disable_web_page_preview=True, quote=True)
+        await message.reply_text(text=f"لم يتم العثور على فقرات!!", disable_web_page_preview=True, quote=True)
         await txt.delete()
         return
 
